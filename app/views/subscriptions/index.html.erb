@@ -1,0 +1,67 @@
+<h1>Subscriptions</h1>
+
+<% if notice %>
+  <p style="color: green;"><%= notice %></p>
+<% end %>
+
+<table border="1" cellpadding="6" cellspacing="0">
+  <thead>
+    <tr>
+      <th>Publisher</th>
+      <th>Listener</th>
+      <th>Async</th>
+      <th>Active</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @subscriptions.each do |subscription| %>
+      <tr>
+        <td><%= subscription.publisher_class_name %></td>
+        <td><%= subscription.listener_class_name %></td>
+        <td><%= subscription.async? %></td>
+        <td><%= subscription.active? %></td>
+        <td>
+          <%= button_to(subscription.active? ? "Deactivate" : "Activate",
+                        subscription_path(subscription),
+                        method: :patch,
+                        params: { subscription: { active: !subscription.active? } }) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h2>Add subscription</h2>
+
+<% if @subscription.errors.any? %>
+  <ul style="color: red;">
+    <% @subscription.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= form_with model: @subscription, url: subscriptions_path do |form| %>
+  <div>
+    <%= form.label :publisher_class_name %>
+    <%= form.text_field :publisher_class_name %>
+  </div>
+
+  <div>
+    <%= form.label :listener_class_name %>
+    <%= form.text_field :listener_class_name %>
+  </div>
+
+  <div>
+    <%= form.label :async %>
+    <%= form.check_box :async %>
+  </div>
+
+  <div>
+    <%= form.label :active %>
+    <%= form.check_box :active, checked: true %>
+  </div>
+
+  <%= form.submit "Add subscription" %>
+<% end %>

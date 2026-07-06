@@ -1,0 +1,27 @@
+<h1>New Order</h1>
+
+<% if notice %>
+  <p style="color: green;"><%= notice %></p>
+<% end %>
+
+<% if @order.errors.any? %>
+  <ul style="color: red;">
+    <% @order.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= form_with model: @order, url: orders_path do |form| %>
+  <div>
+    <%= form.label :customer_name %>
+    <%= form.text_field :customer_name %>
+  </div>
+
+  <div>
+    <%= form.label :total_cents %>
+    <%= form.number_field :total_cents %>
+  </div>
+
+  <%= form.submit "Place order" %>
+<% end %>
