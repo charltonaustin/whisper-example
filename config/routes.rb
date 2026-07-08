@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 
   resources :orders, only: [ :new, :create ]
   resources :subscriptions, only: [ :index, :create, :update ]
+  resources :listeners, only: [ :create ]
 
   # Defines the root path route ("/")
   root "orders#new"

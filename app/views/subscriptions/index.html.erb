@@ -4,6 +4,10 @@
   <p style="color: green;"><%= notice %></p>
 <% end %>
 
+<% if alert %>
+  <p style="color: red;"><%= alert %></p>
+<% end %>
+
 <table border="1" cellpadding="6" cellspacing="0">
   <thead>
     <tr>
@@ -64,4 +68,18 @@
   </div>
 
   <%= form.submit "Add subscription" %>
+<% end %>
+
+<h2>Upload listener</h2>
+
+<p>Upload a Ruby file defining a single listener class. It's saved into <code>app/listeners/</code>
+and can be referenced as a listener class name above immediately — no server restart needed.</p>
+
+<%= form_with url: listeners_path, method: :post, multipart: true do |form| %>
+  <div>
+    <%= form.label :listener_file, "Listener file (.rb)" %>
+    <%= form.file_field :listener_file, accept: ".rb" %>
+  </div>
+
+  <%= form.submit "Upload listener" %>
 <% end %>
